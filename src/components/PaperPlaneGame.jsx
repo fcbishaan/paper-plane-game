@@ -83,11 +83,25 @@ const PaperPlaneGame = () => {
     this.cursors = this.input.keyboard.createCursorKeys();
 
     // Touch controls (for mobile)
+    let touchStartY = 0; // Variable to store the touch start position
+
+    this.input.on('pointerdown', (pointer) => {
+      // Store the touch start Y position when the user starts touching
+      touchStartY = pointer.y;
+    });
+
     this.input.on('pointermove', (pointer) => {
       if (pointer.isDown) {
-        // Move the plane to the pointer's Y position
-        this.plane.y = pointer.y;
+        // Move the plane by the difference between touch start and current position
+        const moveY = pointer.y - touchStartY;
+        this.plane.y = Phaser.Math.Clamp(this.plane.y + moveY, 0, GAME_HEIGHT); // Clamp to ensure the plane stays within bounds
+        touchStartY = pointer.y; // Update touch start position
       }
+    });
+
+    this.input.on('pointerup', () => {
+      // Optional: reset any touch-related variables if needed when touch ends
+      touchStartY = 0;
     });
   }
 
