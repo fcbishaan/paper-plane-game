@@ -79,10 +79,20 @@ const PaperPlaneGame = () => {
     this.physics.add.collider(this.plane, this.obstacles, hitObstacle, null, this);
     this.time.addEvent({ delay: 1000, callback: updateTimer, callbackScope: this, loop: true });
 
+    // Keyboard controls (for desktop)
     this.cursors = this.input.keyboard.createCursorKeys();
+
+    // Touch controls (for mobile)
+    this.input.on('pointermove', (pointer) => {
+      if (pointer.isDown) {
+        // Move the plane to the pointer's Y position
+        this.plane.y = pointer.y;
+      }
+    });
   }
 
   function update() {
+    // Keyboard controls (for desktop)
     if (this.cursors.up.isDown) this.plane.setVelocityY(-200);
     else if (this.cursors.down.isDown) this.plane.setVelocityY(200);
     else this.plane.setVelocityY(0);
@@ -128,7 +138,6 @@ const PaperPlaneGame = () => {
   function completeLevel() {
     setLevelCompleted(true);
     setGameOver(true);
-   
   }
 
   function restartGame() {
