@@ -23,7 +23,7 @@ function App() {
     if (!unlockedLevels.includes(nextLevel)) {
       setUnlockedLevels((prev) => [...prev, nextLevel]);
     }
-    setGameState('won'); // Show "Next Level" button
+    setGameState('won'); 
   };
 
   const goToNextLevel = () => {
